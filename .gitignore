@@ -1,0 +1,9 @@
+logs/*
+*.log
+*.pyc
+*.swp
+.DS_Store
+.idea/*
+sql/2015-08-02.txt
+*.bak
+runtime/*
