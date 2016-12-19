@@ -9,8 +9,8 @@ from core.libs.enum import Enum
 Auth = storage(
     # 功能类型
     FunctionType = Enum(
-        # 用户相关功能
-        User = storage(value = 1, text = u'用户', tag = 'User'),
+        # 视频相关功能
+        Video = storage(value = 1, text = u'视频', tag = 'Video'),
         # 管理用户相关功能
         Administrator = storage(value = 4, text = u'管理用户', tag = 'Administrator'),
         # 任务管理相关功能
