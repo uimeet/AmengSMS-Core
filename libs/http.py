@@ -10,7 +10,6 @@ from requests.exceptions import TooManyRedirects, ConnectionError
 from web.utils import storage
 
 import log
-import oss
 import settings
 
 # 全局会话
