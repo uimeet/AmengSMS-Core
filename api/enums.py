@@ -13,8 +13,6 @@ Auth = storage(
         User = storage(value = 1, text = u'用户', tag = 'User'),
         # 管理用户相关功能
         Administrator = storage(value = 4, text = u'管理用户', tag = 'Administrator'),
-        # 书籍相关功能
-        Book = storage(value = 5, text = u'书籍', tag = 'Book'),
         # 任务管理相关功能
         Task = storage(value = 99, text = u'任务管理', tag = 'Task'),
     ),
