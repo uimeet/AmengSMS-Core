@@ -86,6 +86,7 @@ class TaskHandler(object):
         return self.task.status == enums.Task.Status.Failure
 
     def message_append(self, key, message):
+        self.task._executed = True
         self.message.append({
             'type': key,
             'message': message,
@@ -101,7 +102,6 @@ class TaskHandler(object):
         """
         self.task.status = enums.Task.Status.Waiting
         self.task.status_text = message
-        self.task.executed = True
         self.message_append('info', message)
         self.necessary = False
         # 下次激活时间
@@ -111,7 +111,6 @@ class TaskHandler(object):
         "标注一次错误执行"
         self.task.status = enums.Task.Status.Failure
         self.task.status_text = message
-        self.task.executed = True
         self.message_append('danger', message)
         # 是否有必要继续执行的标记
         self.necessary = False
@@ -120,7 +119,6 @@ class TaskHandler(object):
         "标注一次成功执行"
         self.task.status = enums.Task.Status.Success
         self.task.status_text = message
-        self.task.executed = True
         self.message_append('success', message)
 
     @staticmethod
@@ -276,7 +274,7 @@ class TaskDAL(object):
                           , last_time = web.SQLLiteral('UNIX_TIMESTAMP()')
                           , status = task.status.value
                           , status_text = message
-                          , exec_times = web.SQLLiteral('exec_times + 1') if task.executed else web.SQLLiteral('exec_times')
+                          , exec_times = web.SQLLiteral('exec_times + 1') if task._executed else web.SQLLiteral('exec_times')
                           , active_time = task.active_time
                           , where = 'id = $id'
                           , vars = task)

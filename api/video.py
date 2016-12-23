@@ -18,6 +18,17 @@ class Video(storage):
 
 class VideoDAL(object):
     "视频相关数据库接口"
+    @staticmethod
+    def load_raw(video_id):
+        "获取视频原始信息"
+        rs = db.manager.slave_media.query("""
+            SELECT v.*,vr.server,vr.path
+            FROM video AS v
+                INNER JOIN
+                video_raw AS vr AS vr.video_id = v.id
+            WHERE v.id = $video_id;
+        """, vars = locals())
+        return rs[0] if rs else None
 
     @staticmethod
     def md5load(md5):
