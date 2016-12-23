@@ -212,6 +212,7 @@ class Task(storage):
         """
         mdb = kwargs.pop('mdb', None)
 
+        type_id = type_id or 0
         tail_num = tail_num or utils.make_tail_num(utils.randint(0, 999999999))
 
         task = Task(type = type, tail_num = tail_num, type_id = type_id)

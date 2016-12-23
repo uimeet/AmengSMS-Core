@@ -18,6 +18,12 @@ class Enum(storage):
             iter(v for v in self.values() if v.value == value),
             default or self.Unknown)
 
+    def find_tag(self, tag, default = None):
+        "查找给定tag的枚举项"
+        return next(
+            iter(v for v in self.values() if v.tag.lower() == tag.lower()),
+            default or self.Unknown)
+
     def exists(self, item):
         "给定枚举项是否存在"
         return any(v for v in self.values() if v == item)

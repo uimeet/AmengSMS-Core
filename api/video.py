@@ -13,7 +13,7 @@ class Video(storage):
     def __init__(self, **kwargs):
         super(Video, self).__init__(**kwargs)
 
-        if isinstance(self.status, (int, long)):
+        if isinstance(self.status, (str, unicode)):
             self.status = enums.Video.Status.find(self.status)
 
 class VideoDAL(object):
@@ -80,5 +80,11 @@ class VideoDAL(object):
                     'size': params.size,
                     'md5': params.md5,
                 }
+            else:
+                # 重复上传视频
+                task.Task.create(enums.Task.Type.VideoUploadRepeat,
+                                 type_id = v.id,
+                                 tail_num=int(params['server']),
+                                 **params)
 
             return v

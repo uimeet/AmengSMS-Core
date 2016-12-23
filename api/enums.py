@@ -76,6 +76,7 @@ Task = storage(
     # 类型
     Type = Enum(
         VideoUploaded = storage(value = 1, text = u'视频上传完成', tag = 'VideoUploaded'),
+        VideoUploadRepeat = storage(value = 2, text = u'视频上传重复', tag = 'VideoUploadRepeat')
     ),
     # 状态
     Status = Enum(
