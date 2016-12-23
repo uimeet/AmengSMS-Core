@@ -142,6 +142,8 @@ class Task(storage):
         if isinstance(self.type, (int, long)):
             self.type = enums.Task.Type.find(self.type)
 
+        self.type_id = kwargs.get('type_id', 0)
+
         self.time_created = kwargs.get('time_created', int(utils.timestamp()))
         self.time_created_text = utils.timestamp2datefmt(self.time_created)
         self.active_time = kwargs.get('active_time', self.time_created)
@@ -182,7 +184,7 @@ class Task(storage):
             if include_keys and k not in include_keys:
                 continue
 
-            if k in ('type', 'status'):
+            if k in ('type', 'type_id', 'status'):
                 v = v.value
             elif isinstance(v, (dict, storage, list, tuple,)):
                 v = utils.json_dumps(v)
@@ -199,11 +201,12 @@ class Task(storage):
         return False
 
     @staticmethod
-    def create(type, tail_num = None, **kwargs):
+    def create(type, type_id = None, tail_num = None, **kwargs):
         """
         创建任务
         :param type: 任务类型
-        :param unique: 是否唯一任务
+        :param type_id: 类型标识
+        :param tail_num: 集群标识
         :param kwargs:
         :return:
         """
@@ -211,7 +214,7 @@ class Task(storage):
 
         tail_num = tail_num or utils.make_tail_num(utils.randint(0, 999999999))
 
-        task = Task(type = type, tail_num = tail_num)
+        task = Task(type = type, tail_num = tail_num, type_id = type_id)
         task.content.update(kwargs)
         task.save(mdb)
         return task
@@ -283,6 +286,7 @@ class TaskDAL(object):
         mdb = mdb or db.manager.master_core
         return mdb.insert('task'
                           , type = task.type.value
+                          , type_id = task.type_id
                           , content = utils.json_dumps(task.content)
                           , time_created = web.SQLLiteral('UNIX_TIMESTAMP()')
                           , active_time = task.active_time

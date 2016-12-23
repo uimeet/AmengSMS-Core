@@ -4,6 +4,19 @@ from web.utils import storage
 
 from core.libs.enum import Enum
 
+# 视频相关
+Video = storage(
+    # 状态
+    Status = Enum(
+        Pending = storage(value = 'pending', text = '挂起中', label = 'default'),
+        Segmenting = storage(value = 'segmenting', text = '分片中', label = 'warning'),
+        Storing = storage(value = 'storing', text = '转存中', label = 'warning'),
+        Completed = storage(value = 'completed', text = '完成', label = 'success'),
+        Deleting = storage(value = 'deleting', text = '删除中', label = 'danger'),
+        Error = storage(value = 'error', text = '错误', label = 'danger'),
+        Unknown = storage(value = 'Unknown', text = '未知', label = 'default')
+    ),
+)
 
 # 权限相关
 Auth = storage(
@@ -62,8 +75,7 @@ SupervisorHost = storage(
 Task = storage(
     # 类型
     Type = Enum(
-        RechargeCheck = storage(value = 1, text = u'充值结果检查', tag = 'RechargeCheck'),
-        WeixinSubscribe = storage(value = 2, text = u'微信公众号关注', tag = 'WeixinSubscribe'),
+        VideoUploaded = storage(value = 1, text = u'视频上传完成', tag = 'VideoUploaded'),
     ),
     # 状态
     Status = Enum(

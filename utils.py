@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import re
+import os
 import binascii
 import time
 import urllib
@@ -28,6 +29,65 @@ import inspect
 import math
 
 import settings
+
+MD5_RE = re.compile(ur'[0-9A-Za-z]{32}', re.IGNORECASE)
+def is_md5(src):
+    "判断给定字符串是否是一个md5字符串"
+    return bool(MD5_RE.match(src))
+
+def fill_zero(num, minlength = 2):
+    "当小于指定位数时，在数字前方补0"
+    n = str(num)
+    l = minlength - len(n)
+    if l > 0:
+        return '%s%s' % ('0' * l, num)
+
+    return num
+
+def call(func, default = None, **kwargs):
+    return func(**kwargs) if callable(func) else default
+
+def roll_equal(value, number = 100):
+    "丢筛子并判断与给定值是否相等"
+    return roll(number) == value
+
+def roll(number = 100):
+    """
+    丢筛子
+    @number as int, 可以丢出的最大值
+    """
+    return random.randint(1, max(number, 1))
+
+def delete_file(path):
+    "删除文件"
+    if path and os.path.isfile(path):
+        os.remove(path)
+
+def delete_dirs(path):
+    "递归删除给定路径"
+    import shutil
+    if path and os.path.isdir(path):
+        shutil.rmtree(path)
+
+def make_dirs(path):
+    "创建不存在的目录"
+    if path and not os.path.isdir(path):
+        os.makedirs(path)
+
+SIZE_UNITS = ('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB',)
+def size2human(size):
+    "将文件字节大小转换为最接近的大单位"
+    i = 0
+
+    while size > 1024:
+        i += 1
+        size /= 1024.
+
+    return '%s %s' % (round(size, 2), SIZE_UNITS[i])
+
+def extension(path):
+    "获取给定路径下文件的扩展名"
+    return os.path.splitext(path)[1]
 
 def is_http():
     "判断当前会话是否是http会话"
