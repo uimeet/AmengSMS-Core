@@ -19,6 +19,19 @@ class Video(storage):
 class VideoDAL(object):
     "视频相关数据库接口"
     @staticmethod
+    def update_raw_info(video_id, info):
+        """
+        更新视频原始信息中的 info 字段
+        :param video_id:
+        :param info:
+        :return:
+        """
+        return db.manager.master_media.update('video_raw',
+                                              info = utils.json_dumps(info),
+                                              where = 'video_id = $video_id',
+                                              vars = locals())
+
+    @staticmethod
     def load_raw(video_id):
         "获取视频原始信息"
         rs = db.manager.slave_media.query("""
