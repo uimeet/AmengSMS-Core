@@ -19,6 +19,11 @@ class Video(storage):
 class VideoDAL(object):
     "视频相关数据库接口"
     @staticmethod
+    def update_fileid(video_id, file_id):
+        """更新视频的file_id字段"""
+        return db.manager.master_media.update('video', file_id = file_id, where = 'id = $video_id', vars = locals())
+
+    @staticmethod
     def update_status(video_id, status):
         "更新状态"
         return db.manager.master_media.update('video', status = status, where = 'id = $video_id', vars = locals())
