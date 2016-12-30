@@ -274,6 +274,7 @@ class TaskDAL(object):
                           , last_time = web.SQLLiteral('UNIX_TIMESTAMP()')
                           , status = task.status.value
                           , status_text = message
+                          , content = utils.json_dumps(task.content)
                           , exec_times = web.SQLLiteral('exec_times + 1') if task._executed else web.SQLLiteral('exec_times')
                           , active_time = task.active_time
                           , where = 'id = $id'
