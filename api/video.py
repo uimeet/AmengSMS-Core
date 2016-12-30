@@ -28,7 +28,7 @@ class VideoDAL(object):
                 video_raw AS vr ON vr.video_id = v.id
             WHERE v.id = $video_id;
         """, vars = locals())
-        return rs[0] if rs else None
+        return Video(**rs[0]) if rs else None
 
     @staticmethod
     def md5load(md5):
