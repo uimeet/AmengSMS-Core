@@ -25,7 +25,7 @@ class VideoDAL(object):
             SELECT v.*,vr.server,vr.path
             FROM video AS v
                 INNER JOIN
-                video_raw AS vr AS vr.video_id = v.id
+                video_raw AS vr ON vr.video_id = v.id
             WHERE v.id = $video_id;
         """, vars = locals())
         return rs[0] if rs else None
