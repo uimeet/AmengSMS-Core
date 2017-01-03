@@ -7,7 +7,7 @@ class FastDFS(object):
     "FastDFS客户端"
     def __init__(self):
         print settings.APP_ROOT
-        fdfspyclient.fdfs_init('/conf/fdfs-client.conf' % settings.APP_ROOT)
+        fdfspyclient.fdfs_init('%s/conf/fdfs-client.conf' % settings.APP_ROOT)
 
     def __enter__(self):
         return self
